@@ -7,6 +7,14 @@ R = [[0, 1, 0, 1, 0],
     [0, 1, 0, 0, 0]]
 
 
+# debug
+# R1 = [[1, 1, 0, 1, 0],
+#     [1, 0, 1, 1, 0],
+#     [1, 0, 0, 0, 1],
+#     [1, 1, 1, 1, 1],
+#     [1, 1, 0, 0, 0]]
+
+
 def isReflexive(R):
     for i in range(len(R)):
         if(R[i][i]!=1):
@@ -60,6 +68,51 @@ def isTransitive(R):
         return False
 
 
+# x* is largest in a Relation iff for any x∈X: x*Rx
+def get_largest(R):
+    shape = (np.array(R)).shape
+    if(shape[0] != shape[1]):
+        return "Relation is not a quadratic matrix"
+    
+    flag = 'NaN'
+    for i in range(shape[0]):
+        if(R[i] == [1 for j in range(shape[1])]):
+            if(flag == 'NaN'): flag = []
+            flag.append(i)
+    return flag
+
+
+# x₊ is smallest in a Relation iff for any x∈X: x₊Rx
+def get_smallest(R):
+    R = np.array(R)
+    shape = R.shape
+    if(shape[0] != shape[1]):
+        return "Relation is not a quadratic matrix"
+    
+    flag = 'NaN'
+    for j in range(shape[1]):
+        if((np.ones((1, shape[0])) == R[:, j].reshape((1, shape[0]))).all()):
+            if(flag == 'NaN'): flag = []
+            flag.append(j)
+    return flag
+
+
+def inverse(R):
+    shape = (np.array(R)).shape
+    for i in range(shape[0]):
+        for j in range(i, shape[1]):
+            res = R[i][j]
+            R[i][j]=R[j][i]
+            R[j][i]=res
+    return R
+
+def complement(R):
+    shape = (np.array(R)).shape
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            R[i][j]=1-R[i][j]
+    return R
+
 
 
 def check(R):
@@ -77,11 +130,16 @@ def check(R):
     if(isTransitive(R)):
         properties.append('Transitive')
 
+    print('Largest:', get_largest(R))
+    print('Largest:', get_largest(R))
+    print('Smallest:', get_smallest(R))
+
+    print('Inversed R:', inverse(R))
+    print('Complement R:', complement(R))
+
     return properties
 
 
 
-
-
-
 print(check(R))
+

@@ -1,0 +1,2 @@
+Check the relation for reflexivity, anti-reflexivity, symmetry, antisymmetry, asymmetry, transitivity.\
+Finds the largest, smallest, maximum, and minimum element, if any, and constructs the inverse and additive relation.
