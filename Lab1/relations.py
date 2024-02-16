@@ -14,10 +14,10 @@ R = [[0, 1, 0, 1, 0],
 #     [1, 1, 1, 1, 1],
 #     [1, 1, 0, 0, 0]]
 
-# R2 = [[1, 0, 1, 0],
-#     [1, 1, 0, 0],
-#     [1, 0, 1, 1],
-#     [1, 0, 0, 1]]
+R2 = [[1, 0, 1, 0],
+    [1, 1, 0, 0],
+    [1, 0, 1, 1],
+    [1, 0, 0, 1]]
 
 
 def isReflexive(R):
@@ -102,14 +102,30 @@ def get_smallest(R):
     return flag
 
 
+
+def inverse(R):
+    return (np.array(R)).T
+
+def complement(R):
+    shape = (np.array(R)).shape
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            R[i][j]=1-R[i][j]
+    return R
+
+
+
+
 def get_strong_relation(R):
     R = np.array(R)
-    Rs = np.zeros_like(R)
-    for i in range(R.shape[0]):
-        for j in range(R.shape[1]):
-            if((R[i, j]!=0 or R[j, i]!=0) and (R[j, i] ==0)):
-                Rs[i, j] = 1
-    return Rs
+    R_t = inverse(R)
+    R_s = R - R_t
+    for i in range(R_s.shape[0]):
+        for j in range(R_s.shape[1]):
+            if R_s[i][j]<0: R_s[i][j] = 0
+            else: 
+                if R_s[i][j]>1: R_s[i][j] = 1
+    return R_s
 
 
 def get_max(R):
@@ -131,23 +147,6 @@ def get_min(R):
             flag.append(i)
     return flag
 
-
-
-def inverse(R):
-    shape = (np.array(R)).shape
-    for i in range(shape[0]):
-        for j in range(i, shape[1]):
-            res = R[i][j]
-            R[i][j]=R[j][i]
-            R[j][i]=res
-    return R
-
-def complement(R):
-    shape = (np.array(R)).shape
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            R[i][j]=1-R[i][j]
-    return R
 
 
 
@@ -184,6 +183,3 @@ def check(R):
 
 
 print(check(R))
-
-# print(get_strong_relation(R))
-# print(get_strong_relation(R2))
