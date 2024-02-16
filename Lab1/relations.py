@@ -14,6 +14,11 @@ R = [[0, 1, 0, 1, 0],
 #     [1, 1, 1, 1, 1],
 #     [1, 1, 0, 0, 0]]
 
+# R2 = [[1, 0, 1, 0],
+#     [1, 1, 0, 0],
+#     [1, 0, 1, 1],
+#     [1, 0, 0, 1]]
+
 
 def isReflexive(R):
     for i in range(len(R)):
@@ -97,6 +102,37 @@ def get_smallest(R):
     return flag
 
 
+def get_strong_relation(R):
+    R = np.array(R)
+    Rs = np.zeros_like(R)
+    for i in range(R.shape[0]):
+        for j in range(R.shape[1]):
+            if((R[i, j]!=0 or R[j, i]!=0) and (R[j, i] ==0)):
+                Rs[i, j] = 1
+    return Rs
+
+
+def get_max(R):
+    Rs = get_strong_relation(R)
+    flag = 'NaN'
+    for j in range(Rs.shape[1]):
+        if((np.zeros((1, Rs.shape[0])) == Rs[:, j].reshape((1, Rs.shape[0]))).all()):
+            if(flag == 'NaN'): flag = []
+            flag.append(j)
+    return flag
+
+
+def get_min(R):
+    Rs = get_strong_relation(R)
+    flag = 'NaN'
+    for i in range(Rs.shape[0]):
+        if((np.zeros((1, Rs.shape[0])) == Rs[i, :].reshape((Rs.shape[0], 1))).all()):
+            if(flag == 'NaN'): flag = []
+            flag.append(i)
+    return flag
+
+
+
 def inverse(R):
     shape = (np.array(R)).shape
     for i in range(shape[0]):
@@ -131,8 +167,14 @@ def check(R):
         properties.append('Transitive')
 
     print('Largest:', get_largest(R))
-    print('Largest:', get_largest(R))
     print('Smallest:', get_smallest(R))
+    print('Min:', get_min(R))
+    print('Max:', get_max(R))
+
+    #R2 for check
+    # print('Min:', get_min(R2))
+    # print('Max:', get_max(R2))
+
 
     print('Inversed R:', inverse(R))
     print('Complement R:', complement(R))
@@ -143,3 +185,5 @@ def check(R):
 
 print(check(R))
 
+# print(get_strong_relation(R))
+# print(get_strong_relation(R2))
