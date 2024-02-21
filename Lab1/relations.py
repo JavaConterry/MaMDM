@@ -87,6 +87,17 @@ def get_largest(R):
     return flag
 
 
+def inverse(R):
+    return (np.array(R)).T
+
+def complement(R):
+    shape = (np.array(R)).shape
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            R[i][j]=1-R[i][j]
+    return R
+
+
 # x₊ is smallest in a Relation iff for any x∈X: x₊Rx
 def get_smallest(R):
     R = np.array(R)
@@ -100,19 +111,6 @@ def get_smallest(R):
             if(flag == 'NaN'): flag = []
             flag.append(j)
     return flag
-
-
-
-def inverse(R):
-    return (np.array(R)).T
-
-def complement(R):
-    shape = (np.array(R)).shape
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            R[i][j]=1-R[i][j]
-    return R
-
 
 
 
